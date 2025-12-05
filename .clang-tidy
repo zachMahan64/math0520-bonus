@@ -1,25 +1,14 @@
 Checks: >
-  clang-analyzer-*,
+  clang-diagnostic-*,
   bugprone-*,
+  clang-analyzer-*,
   performance-*,
-  modernize-*,
   readability-*,
+  portability-*,
   -readability-magic-numbers,
-  -modernize-use-trailing-return-type,
-  -readability-identifier-naming,
   -readability-function-cognitive-complexity,
-  -readability-braces-around-statements,
+  -readability-identifier-length,
   -bugprone-easily-swappable-parameters
-
 WarningsAsErrors: ''
-
 HeaderFilterRegex: '.*'
-FormatStyle: file
-CheckOptions:
-  - key:             modernize-use-nullptr.NullMacros
-    value:           'NULL'
-  - key:             readability-implicit-bool-conversion.AllowIntegerConditions
-    value:           'true'
-  - key:             readability-magic-numbers.IgnorePowersOf2
-    value:           'true'
-
+FormatStyle: none
