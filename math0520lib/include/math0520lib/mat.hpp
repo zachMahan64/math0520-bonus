@@ -19,7 +19,7 @@
  * template params: H (height). W (width). T (numeric type)
  */
 template <size_t H, size_t W, typename T>
-    requires std::is_floating_point_v<T> || std::is_integral_v<T>
+    requires std::is_integral_v<T> || std::is_floating_point_v<T>
 class Mat {
   private:
     std::array<std::vector<T>, H> rows{};
