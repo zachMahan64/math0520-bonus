@@ -1,3 +1,8 @@
+// math0520lib
+// https://github.com/zachMahan64/math0520lib
+// 2025
+// Created by Zach Mahan
+
 #ifndef MATH0520LIB_MAT_HPP
 #define MATH0520LIB_MAT_HPP
 #include "vec_operations.hpp"
