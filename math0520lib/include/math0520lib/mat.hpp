@@ -114,12 +114,37 @@ class Mat {
         rows.at(into) = std::move(temp);
     }
 
-    void set_row_to_sum_of_rows(size_t dest, size_t a, size_t b) {
-        if (dest >= H || a >= H || b >= H) {
+    /**
+     * set a row to the sum of two other rows in the matrix, all zero-indexed
+     * paramters: (dest, src_a, src_b) where R_dest <== R_src_a + R_src_b
+     */
+    void set_row_to_sum_of_rows(size_t dest, size_t src_a, size_t src_b) {
+        if (dest >= H || src_a >= H || src_b >= H) {
             throw std::out_of_range("out of bounds reading matrix entry: "
                                     "Mat::set_row_to_sum_of_rows");
         }
-        rows[dest] = add_elem_wise(rows[a], rows[b]);
+        rows[dest] = add_elem_wise(rows[src_a], rows[src_b]);
+    }
+
+    /**
+     * set a row to the sum of two other rows in the matrix, all zero-indexed,
+     * with scalars paramters: (dest, src_a, scale_a, src_b, scale_b)
+     * where
+     * R_dest <== R_src_a * scale_a + R_src_b * scale_b
+     */
+    void set_row_to_sum_of_rows(size_t dest, size_t src_a, T scale_a,
+                                size_t src_b, T scale_b) {
+        if (dest >= H || src_a >= H || src_b >= H) {
+            throw std::out_of_range("out of bounds reading matrix entry: "
+                                    "Mat::set_row_to_sum_of_rows");
+        }
+        // create temp scaled vectors from the source rows
+        auto temp_a = rows[src_a];
+        scale(temp_a, scale_a);
+        auto temp_b = rows[src_b];
+        scale(temp_b, scale_b);
+        // sum elem-wise and put into dest
+        rows[dest] = add_elem_wise(temp_a, temp_b);
     }
 
     // get the row count of the matrix

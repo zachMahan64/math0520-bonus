@@ -10,12 +10,14 @@ void run_demo() {
          << '\n';
 
     // demo 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    cout << "Here's a big matrix of all zeroes, which is easy to initialze:"
+    cout << "Here's a big matrix of all zeroes, the default value of any "
+            "matrix we construct:"
          << '\n';
-    Mat<12, 11, float> mat_big;
+    Mat<12, 11, int> mat_big;
     std::cout << mat_big << '\n';
 
     // demo 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    std::cout << "We can take the dot and cross product of vectors:\n";
     std::vector<int> v{1, 2, 3};
     std::vector<int> u{4, 5, 6};
     cout << "v: " << v << '\n';
@@ -81,8 +83,25 @@ void run_demo() {
                             {2, 2, 2, 2, 2}};
     cout << "let D = \n";
     cout << D;
-    // rows are zero indexed. this method takes parameters (dest, src1, src2):
+    // rows are zero indexed. this method takes parameters (dest, src_a, src_b):
     D.set_row_to_sum_of_rows(0, 1, 3);
-    cout << "D after operation R1 <== (R2 + R3)\n";
-    cout << D;
+    cout << "D after operation R1 <== (R2 + R4):\n";
+    cout << D << '\n';
+
+    // demo 8 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    cout << "Another row operation demo!" << "\n";
+    // let's use 16-bit integers for funsies
+    Mat<5, 5, int16_t> E = {{1, 1, 1, 1, 1},
+                            {1, 1, 1, 1, 1},
+                            {1, 1, 1, 1, 1},
+                            {1, 1, 1, 1, 1},
+                            {1, 1, 1, 1, 1}};
+    cout << "let E = \n";
+
+    cout << E;
+    // rows are zero indexed.
+    // this method takes parameters (dest, src_a, scale_a, src_b, scale_b):
+    E.set_row_to_sum_of_rows(0, 1, 5, 2, 5);
+    cout << "E after operation R1 <== (5*R2 + 5*R3):\n";
+    cout << E;
 }
