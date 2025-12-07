@@ -1,5 +1,6 @@
 #ifndef MATH0520LIB_MAT_HPP
 #define MATH0520LIB_MAT_HPP
+#include "vec_operations.hpp"
 #include <array>
 #include <cstddef>
 #include <initializer_list>
@@ -72,6 +73,22 @@ class Mat {
         rows.at(a) = std::move(temp);
     }
 
+    // swap specified zero-indexed rows with scalars (a, a_scalar, b, b_scalar)
+    void swap_rows(size_t a, T a_scalar, size_t b, T b_scalar) {
+        if (a >= H || b >= H) {
+            throw std::out_of_range(
+                "out of bounds reading matrix entry: Mat::swap_rows");
+        }
+        // scale a (before swap)
+        scale(rows.at(a), a_scalar);
+        // scale b in a temp
+        std::vector<T> temp_b = std::move(rows.at(b));
+        scale(temp_b, b_scalar);
+        // swap
+        rows.at(b) = std::move(rows.at(a));
+        rows.at(a) = std::move(temp_b);
+    }
+
     // copy a row to the first paramter, from the second paramter
     //
     // each paramter should reference a zero-indexed row
@@ -95,6 +112,14 @@ class Mat {
         auto temp = rows.at(from);
         scale(temp, scalar);
         rows.at(into) = std::move(temp);
+    }
+
+    void set_row_to_sum_of_rows(size_t dest, size_t a, size_t b) {
+        if (dest >= H || a >= H || b >= H) {
+            throw std::out_of_range("out of bounds reading matrix entry: "
+                                    "Mat::set_row_to_sum_of_rows");
+        }
+        rows[dest] = add_elem_wise(rows[a], rows[b]);
     }
 
     // get the row count of the matrix

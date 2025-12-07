@@ -54,7 +54,7 @@ void run_demo() {
     int scalar = 5;
     cout << "vector v: " << v << ", scaled by " << scalar << ":\n";
     scale(v, scalar); // modified in place
-    cout << v << '\n';
+    cout << v << "\n\n";
 
     // demo 6 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cout << "Back to matrices. We can do fun operations too!\n";
@@ -64,4 +64,25 @@ void run_demo() {
                            {-4, 6, 2, 1, 8},
                            {-4, 6, 2, 1, 8},
                            {-5, 7, 3, 4, 1}};
+    cout << "let C = \n";
+    cout << C;
+    // rows are zero indexed. this method takes parameters (dest, src, scalar):
+    C.row_into_from(2, 3, -1);
+    cout << "C after operation R3 <== -R4\n";
+    cout << C << '\n';
+
+    // demo 7 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    cout << "Next demo!" << "\n";
+    // let's use 16-bit integers for funsies
+    Mat<5, 5, int16_t> D = {{1, 1, 1, 1, 1},
+                            {2, 2, 2, 2, 2},
+                            {3, 3, 3, 3, 3},
+                            {2, 2, 2, 2, 2},
+                            {2, 2, 2, 2, 2}};
+    cout << "let D = \n";
+    cout << D;
+    // rows are zero indexed. this method takes parameters (dest, src1, src2):
+    D.set_row_to_sum_of_rows(0, 1, 3);
+    cout << "D after operation R1 <== (R2 + R3)\n";
+    cout << D;
 }

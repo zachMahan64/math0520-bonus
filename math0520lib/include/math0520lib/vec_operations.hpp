@@ -50,6 +50,27 @@ template <class T, size_t N>
     return accum;
 }
 
+/**
+ * perform elem-wise addition, can take any NumericVec, but always returns an
+ * std::vector
+ *
+ * arguments must contain the same underlying type
+ */
+template <NumericVec V, NumericVec U>
+    requires std::is_same_v<typename V::value_type, typename U::value_type>
+[[nodiscard]] std::vector<typename V::value_type> add_elem_wise(const V& v,
+                                                                const U& u) {
+    if (v.size() != u.size()) {
+        throw std::logic_error(
+            "lengths of vectors do not match when doing elem-wise addition");
+    }
+    std::vector<typename V::value_type> res;
+    for (size_t i = 0; i < v.size(); i++) {
+        res.emplace_back(v[i] + u[i]);
+    }
+    return res;
+}
+
 template <NumericVec A, NumericVec B>
 [[nodiscard]] auto cross(const A& a, const B& b) {
     if (a.size() != 3 || b.size() != 3) {
