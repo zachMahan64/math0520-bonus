@@ -4,24 +4,41 @@
 #include <iostream>
 
 void run_demo() {
-    std::cout << "Hello, math0520! This is my demo for a basic C++ linear "
-                 "algebra library."
-              << '\n';
+    using std::cout;
+    cout << "Hello, math0520! This is my demo for a basic C++ linear "
+            "algebra library."
+         << '\n';
 
-    std::cout << "Here's a big matrix of all zeroes:" << '\n';
-    Mat<12, 11, float> mat;
-    std::cout << mat << '\n';
+    // demo 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    cout << "Here's a big matrix of all zeroes, which is easy to initialze:"
+         << '\n';
+    Mat<12, 11, float> mat_big;
+    std::cout << mat_big << '\n';
 
-    Mat<2, 2, float> mat1({{2, 2}, {1, 1}});
-
-    mat1.copy_row_to_from(1, 0);
-    std::cout << mat1.at(1, 1) << '\n';
-    std::cout << mat1;
-
+    // demo 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     std::vector<int> v{1, 2, 3};
     std::vector<int> u{4, 5, 6};
-    std::cout << "v: " << v;
-    std::cout << "u: " << u;
-    std::cout << "dot product: " << dot(v, u) << '\n';
-    std::cout << "cross product: " << cross(v, u) << '\n';
+    cout << "v: " << v;
+    cout << "u: " << u;
+    cout << "dot product: " << dot(v, u) << '\n';
+    cout << "cross product: " << cross(v, u) << "\n\n";
+
+    // demo 3 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    cout << "Now, let's take the rref of some matrix!" << "\n";
+    Mat<3, 3, int> mat({{-8, 2, 5}, {4, 7, 1}, {3, 8, 9}});
+    std::cout << "original:\n" << mat << '\n';
+    std::cout << "rref:\n" << mat.make_rref() << '\n';
+
+    // demo 4 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    cout << "Now, let's take the rref of a bigger matrix!" << "\n";
+    // this time, we'll use a matrix of doubles
+    Mat<5, 6, double> mat1({{-8, 2, 5, 1, -4, 6},
+                            {4, 7, 1, 0, 2, 6},
+                            {3, 8, 9, -1, 3, 0},
+                            {0, -4, 6, 3, 9, 1},
+                            {-1, 8, 2, 4, 5, 2}});
+    std::cout << "original:\n" << mat1 << '\n';
+    mat1.rref(); // this modifies the matrix and turns it into its rref in
+                 // place
+    std::cout << "rref:\n" << mat1 << '\n';
 }

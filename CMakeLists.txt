@@ -15,7 +15,5 @@ set(CMAKE_CXX_FLAGS_DEBUG   "-Wall -Wextra -Wpedantic -g" CACHE STRING "" FORCE)
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG" CACHE STRING "" FORCE)
 
 add_executable(${EXECUTABLE} ${SRC})
-target_include_directories(${EXECUTABLE} PRIVATE src)
+target_include_directories(${EXECUTABLE} PRIVATE src math0520lib/include/)
 
-add_subdirectory(math0520lib)
-target_link_libraries(demo PRIVATE math0520lib)

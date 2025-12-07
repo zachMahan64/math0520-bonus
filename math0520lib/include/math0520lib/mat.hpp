@@ -3,6 +3,7 @@
 #include <array>
 #include <cstddef>
 #include <initializer_list>
+#include <iomanip>
 #include <sstream>
 #include <stdexcept>
 #include <type_traits>
@@ -23,6 +24,7 @@ template <size_t H, size_t W, typename T>
 class Mat {
   private:
     std::array<std::vector<T>, H> rows{};
+    int print_precision = 2; // default to 2
 
   public:
     Mat() {
@@ -90,14 +92,25 @@ class Mat {
     // get the string representation of the matrix
     std::string to_string() const {
         std::stringstream sstr;
+
         for (const auto& row : rows) {
             sstr << '{';
+
             for (size_t i = 0; i < row.size(); i++) {
-                sstr << row.at(i);
-                if (i < row.size() - 1) {
+                const auto& elem = row[i];
+
+                if constexpr (std::is_floating_point_v<T>) {
+                    sstr << std::setw(6) << std::fixed
+                         << std::setprecision(this->print_precision) << elem;
+                } else {
+                    sstr << std::setw(3) << elem;
+                }
+
+                if (i + 1 < row.size()) {
                     sstr << ", ";
                 }
             }
+
             sstr << "}\n";
         }
 
@@ -137,6 +150,59 @@ class Mat {
                                     "matrix: Mat::move_row_into");
         }
         rows.at(row_idx) = row;
+    }
+
+    /**
+     * calculate and return the rref of this matrix
+     *
+     * I did not come up with this algorithm; I adapted it from here:
+     * https://stackoverflow.com/questions/31756413/solving-a-simple-matrix-in-row-reduced-form-in-c
+     */
+    void rref() {
+        size_t lead = 0;
+
+        while (lead < H) {
+            T d;
+            T m;
+
+            for (int r = 0; r < H; r++) { // for each row ...
+                /* calculate divisor and multiplier */
+                d = rows[lead][lead];
+                m = rows[r][lead] / rows[lead][lead];
+
+                for (int c = 0; c < W; c++) { // for each column ...
+                    if (r == lead) {
+                        rows[r][c] /= d; // make pivot = 1
+                    } else {
+                        rows[r][c] -= rows[lead][c] * m; // make other = 0
+                    }
+                }
+            }
+            lead++;
+        }
+    }
+    /**
+     * creates a new rref of this matrix by value
+     */
+    [[nodiscard("use .rref() if you want to take the rref of a Mat inplace")]]
+    Mat make_rref() const {
+        Mat copy;
+        copy.rows = this->rows; // copy rows
+        copy.rref();
+        return copy;
+    }
+
+    /**
+     * set print precision for floating point matrices
+     */
+    void set_print_precision(size_t precision) {
+        // restrict max precision
+        constexpr int MAX_PRECISION = 7;
+        if (precision > MAX_PRECISION) {
+            throw std::logic_error("requested print precision too high: "
+                                   "Mat::set_print_precision\n");
+        }
+        this->print_precision = (int)precision;
     }
 };
 
