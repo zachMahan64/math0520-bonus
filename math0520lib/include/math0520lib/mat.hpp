@@ -142,7 +142,7 @@ class Mat {
 
 // overload allowing easy cout interop with the Mat class
 template <size_t H, size_t W, typename T>
-std::ostream& operator<<(std::ostream& os, const Mat<H, W, T> mat) {
+std::ostream& operator<<(std::ostream& os, const Mat<H, W, T>& mat) {
     os << mat.to_string();
     return os;
 }
