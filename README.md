@@ -1,6 +1,6 @@
 ### Math0520lib: my bonus project made for Brown's Math 0520
 - This library is header only, so using it as simple as including the [header files](math0520lib/include/math0520lib) in another project.
-- The library contains a matrix class, `Mat`, that supports various row operations including an RREF method. There is also a matrix multiplication free function as well as a member function to calculate a matrix's determinant. There are free functions for scaling, dotting, and crossing vectors, as well as element-wise addition in [include/math0520lib](math0520lib/include/math0520lib). The matrix class is fully generic and interops cleanly with all standard numeric types (int, float, double, etc) and also interops with std::vector. It can also be initialized intuitively with initializer lists. The free functions for manipulating vectors also work generically with std::vectors and std::arrays containing standard numeric types.
+- The library contains a matrix class, `Mat`, that supports various row operations including an RREF method. There is also a matrix multiplication free function as well as a member function to calculate a matrix's determinant. There are free functions for scaling, dotting, and crossing vectors, as well as element-wise addition in the [vec_operations header](math0520lib/include/math0520lib/vec_operations.hpp). The matrix class is fully generic and interops cleanly with all standard numeric types (int, float, double, etc) and also interops with std::vector. It can also be initialized intuitively with initializer lists. The free functions for manipulating vectors also work generically with std::vectors and std::arrays containing standard numeric types.
 - Here is the output of the [demo code](demo/demo.cpp):
 ```
 Hello, math0520! This is my demo for a basic C++ linear algebra library.
@@ -63,7 +63,7 @@ vector v: {1, 2, 3}, scaled by 5:
 {5, 10, 15}
 
 Back to matrices. We can do fun operations too!
-let C = 
+let C =
 {  1.00,   3.00,   5.00,   1.00,   2.00}
 {  6.00,   1.00,   3.00,   2.00,   2.00}
 { -4.00,   6.00,   2.00,   1.00,   8.00}
@@ -77,7 +77,7 @@ C after operation R3 <== -R4
 { -5.00,   7.00,   3.00,   4.00,   1.00}
 
 Next demo!
-let D = 
+let D =
 {  1,   1,   1,   1,   1}
 {  2,   2,   2,   2,   2}
 {  3,   3,   3,   3,   3}
@@ -91,7 +91,7 @@ D after operation R1 <== (R2 + R4):
 {  2,   2,   2,   2,   2}
 
 Another row operation demo!
-let E = 
+let E =
 {  1,   1,   1,   1,   1}
 {  1,   1,   1,   1,   1}
 {  1,   1,   1,   1,   1}
@@ -105,19 +105,19 @@ E after operation R1 <== (5*R2 + 5*R3):
 {  1,   1,   1,   1,   1}
 
 Now, let's multiply some matrices!
-let F = 
+let F =
 {  2,   3,   4,   5,   6}
 {  7,   8,   9,   8,   7}
 {  6,   5,   4,   3,   2}
 {  1,   2,   3,   4,   5}
 {  6,   7,   8,   9,   8}
-let I5 = 
+let I5 =
 {  1,   0,   0,   0,   0}
 {  0,   1,   0,   0,   0}
 {  0,   0,   1,   0,   0}
 {  0,   0,   0,   1,   0}
 {  0,   0,   0,   0,   1}
-F * I5 = 
+F * I5 =
 {  2,   3,   4,   5,   6}
 {  7,   8,   9,   8,   7}
 {  6,   5,   4,   3,   2}
