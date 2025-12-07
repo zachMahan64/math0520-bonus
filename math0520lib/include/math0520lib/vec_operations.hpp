@@ -70,7 +70,7 @@ std::string vec_to_string(const T& vec) {
             sstr << ", ";
         }
     }
-    sstr << "}\n";
+    sstr << '}';
     return sstr.str();
 }
 
@@ -79,6 +79,13 @@ template <NumericVec T>
 std::ostream& operator<<(std::ostream& os, const T& vec) {
     os << vec_to_string(vec);
     return os;
+}
+
+template <NumericVec T>
+void scale(T& vec, typename T::value_type scalar) {
+    for (auto& entry : vec) {
+        entry *= scalar;
+    }
 }
 
 #endif // !MATH0520LIB_VEC_HPP
